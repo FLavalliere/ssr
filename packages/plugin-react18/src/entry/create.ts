@@ -6,6 +6,7 @@ import { combineRoutes } from 'ssr-common-utils'
 import * as declareRoutes from '_build/ssr-declare-routes'
 import * as ManualRoutes from '_build/ssr-manual-routes'
 import { ReactRoutesType } from 'ssr-types'
+// import {createStore as cc, applyMiddleware} from 'redux';
 
 export const Routes = combineRoutes(declareRoutes, ManualRoutes) as ReactRoutesType
 
@@ -20,10 +21,20 @@ export const ssrCreateContext = () => {
 }
 
 export function createStore (initialData?: any) {
+  console.error('create store here init data:', initialData);
   const { store } = Routes
-  const storeInstance = initialData ? store : deepClone(store)
+  console.error('the store obj :', store)
+  const storeInstance = initialData ? store : deepClone(store)  
   for (const key in storeInstance) {
+    console.error('in here... ' , key);
     storeInstance[key] = initialData ? proxy(initialData[key]) : proxy(storeInstance[key])
   }
+
+  //const s = cc(()=>[], storeInstance, applyMiddleware());
+  //return s;
+  console.error('Regurning store heofhe', storeInstance)
   return storeInstance
 }
+
+
+

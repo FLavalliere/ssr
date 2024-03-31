@@ -1,10 +1,16 @@
+// @ts-no-check
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Controller, Get, Req, Res } from '@nestjs/common'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Request, Response } from 'express'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { render } from 'ssr-core'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApiService } from './index.service'
 
 @Controller('/')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class AppController {
   constructor (private readonly apiService: ApiService) { }
   @Get('/')

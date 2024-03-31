@@ -1,4 +1,5 @@
-import type { RouteComponentProps } from 'react-router-dom'
+// import type { useParams } from 'react-router-dom'
+import { NavigateFunction } from 'react-router-dom';
 import type { Action } from './component'
 import type { ISSRContext, ISSRNestContext, ISSRMidwayContext, ISSRMidwayKoaContext } from '../ctx'
 import type { IConfig } from '../config'
@@ -22,31 +23,48 @@ export interface ProvisionalFeRouteItem {
   component?: string
 }
 
-export interface Params<T, U> {
-  ctx?: ISSRContext<T>
-  routerProps?: RouteComponentProps<U>
-  state?: any
-}
-export interface ParamsMidway<T, U> {
-  ctx?: ISSRMidwayContext<T>
-  routerProps?: RouteComponentProps<U>
-  state?: any
-}
-export interface ParamsMidwayKoa<T, U> {
-  ctx?: ISSRMidwayKoaContext<T>
-  routerProps?: RouteComponentProps<U>
-  state?: any
-}
-export interface ParamsNest<T, U> {
-  ctx?: ISSRNestContext<T>
-  routerProps?: RouteComponentProps<U>
-  state?: any
+export interface Params<T, U extends { [K in keyof U]?: string | undefined }> {
+  ctx?: ISSRContext<T>;
+  routerProps?: NavigateFunction, 
+  // navigate?: NavigateFunction;
+  state?: any;
+  // params?: U; // Using generics to define params type
 }
 
-export type ReactFetch<T={}, U={}> = (params: Params<T, U>) => Promise<any>
-export type ReactMidwayFetch<T={}, U={}> = (params: ParamsMidway<T, U>) => Promise<any>
-export type ReactMidwayKoaFetch<T={}, U={}> = (params: ParamsMidwayKoa<T, U>) => Promise<any>
-export type ReactNestFetch<T={}, U={}> = (params: ParamsNest<T, U>) => Promise<any>
+export interface ParamsMidway<T, U extends { [K in keyof U]?: string | undefined }> {
+  ctx?: ISSRMidwayContext<T>
+  routerProps?: NavigateFunction, 
+  // navigate?: NavigateFunction;
+  state?: any;
+  // params?: U; // Using generics to define params type
+  /*
+  ctx?: ISSRMidwayContext<T>
+  routerProps?: useParams
+  state?: any
+  */
+}
+export interface ParamsMidwayKoa<T, U extends { [K in keyof U]?: string | undefined }> {
+  ctx?: ISSRMidwayKoaContext<T>
+  routerProps?: NavigateFunction, // navigate?: NavigateFunction;
+  state?: any;
+  // params?: U; // Using generics to define params type
+}
+export interface ParamsNest<T, U extends { [K in keyof U]?: string | undefined }> {
+  ctx?: ISSRNestContext<T>
+  routerProps?: NavigateFunction, 
+  // navigate?: NavigateFunction;
+  state?: any;
+  // params?: U; // Using generics to define params type
+  /*
+  routerProps?: useParams
+  state?: any
+  */
+}
+
+export type ReactFetch<T = {}, U extends { [K in keyof U]?: string | undefined } = {}> = (params: Params<T, U>) => Promise<any>
+export type ReactMidwayFetch<T = {}, U extends { [K in keyof U]?: string | undefined } = {}> = (params: ParamsMidway<T, U>) => Promise<any>
+export type ReactMidwayKoaFetch<T = {}, U extends { [K in keyof U]?: string | undefined } = {}> = (params: ParamsMidwayKoa<T, U>) => Promise<any>
+export type ReactNestFetch<T = {}, U extends { [K in keyof U]?: string | undefined } = {}> = (params: ParamsNest<T, U>) => Promise<any>
 
 export type ReactESMFetch = () => Promise<{
   default: ReactFetch

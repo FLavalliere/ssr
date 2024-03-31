@@ -27,7 +27,9 @@ function combineReducer(state: any, action: any) {
   return defaultReducer(state, action) || userReducer(state, action)
 }
 
+// @ts-ignore
 export function AppContext(props: IProps) {
+  // @ts-ignore
   const initialState = Object.assign({}, userState ?? {}, __isBrowser__ ? window?.__INITIAL_DATA__ : props.initialState)
   const [state, dispatch] = useReducer(combineReducer, initialState)
   return createElement(props.context.Provider, {

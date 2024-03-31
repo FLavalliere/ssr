@@ -1,6 +1,7 @@
 import type { Options, compilation } from 'webpack'
 import type WebpackChainConfig from 'webpack-chain'
 import type { PluginOption, ServerOptions, UserConfig as ViteConfig, CSSOptions } from 'vite'
+// import type { PluginOption, UserConfig as ViteConfig, CSSOptions } from 'vite'
 import type { Plugin as PostCssPlugin } from 'postcss'
 import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
 import type { PluginItem as BabelPluginItem } from '@babel/core'
@@ -72,7 +73,7 @@ export interface IConfig {
       sass?: any /*! only webpack */
       scss?: any /*! only vite */
       postcss?: {
-        options?: Exclude<CSSOptions['postcss'], string>
+        options?: string | Exclude<CSSOptions['postcss'], string>
         plugins?: PostCssPlugin[]
       }
     }

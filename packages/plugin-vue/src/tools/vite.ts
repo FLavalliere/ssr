@@ -4,6 +4,7 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 const { getOutput, vueServerEntry, vueClientEntry, define } = loadConfig()
 const { clientOutPut, serverOutPut } = getOutput()
 
+// @ts-ignore
 const serverConfig: UserConfig = {
   ...commonConfig(),
   plugins: [
@@ -37,6 +38,7 @@ const clientConfig: UserConfig = {
     rollupOptions: {
       input: vueClientEntry,
       output: rollupOutputOptions(),
+      // @ts-ignore
       plugins: [chunkNamePlugin(), manifestPlugin()]
     }
   },

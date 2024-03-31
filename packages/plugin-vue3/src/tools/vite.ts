@@ -43,6 +43,7 @@ const serverPlugins = [
 const serverConfig: UserConfig = {
   ...commonConfig(),
   ...viteConfig?.().server?.otherConfig,
+  // @ts-expect-error
   plugins: viteConfig?.()?.server?.processPlugin?.(serverPlugins) ?? serverPlugins,
   optimizeDeps: {
     ...viteConfig?.().server?.otherConfig?.optimizeDeps,
@@ -56,6 +57,7 @@ const serverConfig: UserConfig = {
     ...viteConfig?.().server?.otherConfig?.build,
     ssr: vue3ServerEntry,
     outDir: serverOutPut,
+    // @ts-expect-error
     rollupOptions: {
       ...viteConfig?.().server?.otherConfig?.build?.rollupOptions,
       input: isDev ? vue3ClientEntry : vue3ServerEntry, // setting prebundle list by client-entry in dev
@@ -85,16 +87,19 @@ const clientConfig: UserConfig = {
   ...commonConfig(),
   ...viteConfig?.().client?.otherConfig,
   base: isDev ? '/' : getOutputPublicPath(),
+  // @ts-expect-error
   plugins: viteConfig?.()?.client?.processPlugin?.(clientPlugins) ?? clientPlugins,
   build: {
     ...viteConfig?.().client?.otherConfig?.build,
     ...(optimize ? { write: false } : {}),
     ssrManifest: true,
     outDir: clientOutPut,
+    // @ts-expect-error
     rollupOptions: {
       ...viteConfig?.().client?.otherConfig?.build?.rollupOptions,
       input: vue3ClientEntry,
       output: rollupOutputOptions(),
+      // @ts-ignore
       plugins: [chunkNamePlugin(), asyncOptimizeChunkPlugin(), manifestPlugin(),
         ...getBabelOptions({
           babel

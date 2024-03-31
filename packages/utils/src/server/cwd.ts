@@ -234,6 +234,7 @@ export const checkRoute = ({
   routeItem?: { path: string }
   path: string
 }) => {
+  console.error('WWWWWWWWWWWWWWWWWWWWWroute item is :', routeItem)
   if (!routeItem?.path) {
     throw new Error(`
       With Path: ${path} search component failed

@@ -288,6 +288,7 @@ const commonConfig = (): UserConfig => {
     mode: 'development',
     ...(optimize ? { logLevel: 'slient' } : {}),
     server: {
+      // @ts-expect-error
       middlewareMode: 'ssr' as SSR,
       hmr,
       ...viteConfig?.().common?.server
@@ -302,7 +303,7 @@ const commonConfig = (): UserConfig => {
         scss: css?.().loaderOptions?.scss ?? {}
       }
     },
-    // @ts-expect-error
+    // /ts-expect-error
     ssr: {
       external: defaultExternal.concat(viteConfig?.()?.server?.externals ?? []),
       noExternal: whiteList

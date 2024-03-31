@@ -37,7 +37,8 @@
     "shelljs": "^0.8.3",
     "ssr-common-utils": "^6.2.10",
     "ssr-types": "^6.2.3",
-    "yargs": "^13.2.4"
+    "yargs": "^13.2.4",
+    "vue-server-renderer": "latest"
   },
   "engines": {
     "node": ">=12"

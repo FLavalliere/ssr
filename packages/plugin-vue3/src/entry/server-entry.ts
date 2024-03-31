@@ -158,9 +158,11 @@ const serverRender = async (ctx: ISSRContext, config: IConfig) => {
     }
     app.use(router)
     app.use(store)
+    // ts-expect-error
     app.use(pinia)
 
     const res = await appLocalStoreageWrapper.run({
+      // ts-expect-error
       app
     }, async () => {
       if (stream) {

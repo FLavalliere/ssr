@@ -43,7 +43,9 @@ const serverPlugins = [
 const serverConfig: UserConfig = {
   ...commonConfig(),
   ...viteConfig?.().server?.otherConfig,
+  // @ts-expect-error
   plugins: viteConfig?.()?.server?.processPlugin?.(serverPlugins) ?? serverPlugins,
+  // @ts-expect-error
   esbuild: {
     ...viteConfig?.().server?.otherConfig?.esbuild,
     keepNames: true,
@@ -62,6 +64,7 @@ const serverConfig: UserConfig = {
     ...viteConfig?.().server?.otherConfig?.build,
     ssr: reactServerEntry,
     outDir: serverOutPut,
+    // @ts-expect-error
     rollupOptions: {
       ...viteConfig?.().server?.otherConfig?.build?.rollupOptions,
       input: isDev ? reactClientEntry : reactServerEntry, // setting prebundle list by client-entry in dev
@@ -92,26 +95,31 @@ const clientConfig: UserConfig = {
   ...commonConfig(),
   ...viteConfig?.().client?.otherConfig,
   base: isDev ? '/' : getOutputPublicPath(),
+  // @ts-expect-error
   esbuild: {
     ...viteConfig?.().client?.otherConfig?.esbuild,
     keepNames: true,
     logOverride: { 'this-is-undefined-in-esm': 'silent' }
   },
+  // @ts-expect-error
   optimizeDeps: {
     ...viteConfig?.().client?.otherConfig?.optimizeDeps,
     include: ['react-router', ...extraInclude].concat(...viteConfig?.().client?.otherConfig?.optimizeDeps?.include ?? []),
     exclude: ['ssr-hoc-react'].concat(...viteConfig?.().client?.otherConfig?.optimizeDeps?.exclude ?? [])
   },
+  // @ts-expect-error
   plugins: viteConfig?.()?.client?.processPlugin?.(clientPlugins) ?? clientPlugins,
   build: {
     ...viteConfig?.().client?.otherConfig?.build,
     ...(optimize ? { write: false } : {}),
     ssrManifest: true,
     outDir: clientOutPut,
+    // @ts-expect-error
     rollupOptions: {
       ...viteConfig?.().client?.otherConfig?.build?.rollupOptions,
       input: reactClientEntry,
       output: rollupOutputOptions(),
+      // @ts-ignore
       plugins: [chunkNamePlugin(), asyncOptimizeChunkPlugin(), manifestPlugin()]
     }
   },

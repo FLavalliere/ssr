@@ -1,17 +1,21 @@
 import { PassThrough } from 'stream'
 import * as React from 'react'
 import { createElement } from 'react'
-import { StaticRouter } from 'react-router-dom'
+// import { StaticRouter, StaticRouterProvider } from "react-router-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+// import { StaticRouter } from "react-router-dom-v5-compat";
 import { renderToString, renderToPipeableStream } from 'react-dom/server.node'
 import { findRoute, getManifest, logGreen, normalizePath, getAsyncCssChunk, getAsyncJsChunk, reactRefreshFragment, localStorageWrapper, checkRoute, splitPageInfo, useStore } from 'ssr-common-utils'
 import { ISSRContext, IConfig, ReactESMPreloadFeRouteItem, DynamicFC, StaticFC } from 'ssr-types'
 import { serialize } from 'ssr-serialize-javascript'
 import { AppContext } from './context'
+// import { Provider } from 'react-redux'
 import { Routes, ssrCreateContext, createStore } from './create'
 
 const { FeRoutes, layoutFetch, state, Layout } = Routes
 
-const serverRender = async (ctx: ISSRContext, config: IConfig) => {
+const serverRender
+ = async (ctx: ISSRContext, config: IConfig) => {
   const context = ssrCreateContext()
   const { mode, parallelFetch, prefix, isVite, isDev, clientPrefix, stream, onError, onReady, rootId, hashRouter } = config
   const rawPath = ctx.request.path ?? ctx.request.url
@@ -73,25 +77,34 @@ const serverRender = async (ctx: ISSRContext, config: IConfig) => {
     })
     const injectState = <script dangerouslySetInnerHTML={{ __html: innerHTML }} />
     // with jsx type error, use createElement here
-    // @ts-expect-error
+
+    // console.error('CREATE ELEMENT HERE WITH ROUTER STATIC HERE?????', StaticRouter, ' ctx is :', ctx.request.url, ' app context is', AppContext)
     const ele = createElement(StaticRouter, {
-      location: ctx.request.url,
-      basename: prefix === '/' ? undefined : prefix
-    }, createElement(AppContext, {
-      initialState: combineData,
-      context: context as any,
-      children: createElement(Layout, {
-        ctx: ctx,
-        config: config,
-        staticList: staticList,
-        injectState: injectState
-      }, createElement(Component, null))
-    }))
+        location: ctx.request.url,
+        basename: prefix === '/' ? undefined : prefix
+      },
+      createElement(AppContext, {
+        initialState: combineData,
+        context: context as any,
+        // @ts-ignore
+        children: createElement(Layout, {
+          ctx: ctx,
+          config: config,
+          staticList: staticList,
+          injectState: injectState
+          // @ts-ignore
+        }, createElement(Component, null))
+      }));
+    console.error('CREAING OFFFFFFFFFF',)
+    // ts-ignore
     return stream ? renderToPipeableStream(ele, {
       onAllReady: onReady,
+      // @ts-ignore
       onError
     }).pipe(new PassThrough()) : renderToString(ele)
+    
   }
+  console.error('WRURUKLSJFLKSDJFL localStorageWrapper of ', await createStore())
   return await localStorageWrapper.run({
     context: context as any,
     ctx,

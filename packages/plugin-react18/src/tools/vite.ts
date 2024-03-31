@@ -43,12 +43,15 @@ const serverPlugins = [
 const serverConfig: UserConfig = {
   ...commonConfig(),
   ...viteConfig?.().server?.otherConfig,
+  // @ts-expect-error
   plugins: viteConfig?.()?.server?.processPlugin?.(serverPlugins) ?? serverPlugins,
+  // @ts-expect-error
   esbuild: {
     ...viteConfig?.().server?.otherConfig?.esbuild,
     keepNames: true,
     logOverride: { 'this-is-undefined-in-esm': 'silent' }
   },
+  // ts-expect-error
   optimizeDeps: {
     ...viteConfig?.().server?.otherConfig?.optimizeDeps,
     include: extraInclude.concat(...viteConfig?.().server?.otherConfig?.optimizeDeps?.include ?? []),
@@ -62,6 +65,7 @@ const serverConfig: UserConfig = {
     ...viteConfig?.().server?.otherConfig?.build,
     ssr: react18ServerEntry,
     outDir: serverOutPut,
+    // @ts-expect-error
     rollupOptions: {
       ...viteConfig?.().server?.otherConfig?.build?.rollupOptions,
       input: isDev ? react18ClientEntry : react18ServerEntry, // setting prebundle list by client-entry in dev
@@ -93,26 +97,31 @@ const clientConfig: UserConfig = {
   ...commonConfig(),
   ...viteConfig?.().client?.otherConfig,
   base: isDev ? '/' : getOutputPublicPath(),
+  // @ts-expect-error
   esbuild: {
     ...viteConfig?.().client?.otherConfig?.esbuild,
     keepNames: true,
     logOverride: { 'this-is-undefined-in-esm': 'silent' }
   },
+  // @ts-expect-error
   optimizeDeps: {
     ...viteConfig?.().client?.otherConfig?.optimizeDeps,
     include: ['react-router', ...extraInclude].concat(...viteConfig?.().client?.otherConfig?.optimizeDeps?.include ?? []),
     exclude: ['ssr-hoc-react18'].concat(...viteConfig?.().client?.otherConfig?.optimizeDeps?.exclude ?? [])
   },
+  // @ts-expect-error
   plugins: viteConfig?.()?.client?.processPlugin?.(clientPlugins) ?? clientPlugins,
   build: {
     ...viteConfig?.().client?.otherConfig?.build,
     ...(optimize ? { write: false } : {}),
     ssrManifest: true,
     outDir: clientOutPut,
+    // @ts-expect-error
     rollupOptions: {
       ...viteConfig?.().client?.otherConfig?.build?.rollupOptions,
       input: react18ClientEntry,
       output: rollupOutputOptions(),
+      // @ts-ignore
       plugins: [chunkNamePlugin(), asyncOptimizeChunkPlugin(), manifestPlugin()]
     }
   },

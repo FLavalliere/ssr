@@ -32,17 +32,36 @@ const getBaseConfig = (chain: WebpackChain, isServer: boolean) => {
   })
   addCommonChain(chain, isServer)
 
+  /*
   setStyle(chain, /\.css$/, {
     rule: 'css',
+    loader: 'style-loader',    
     isServer,
     importLoaders: 1
   })
+
+  setStyle(chain, /\.css$/, {
+    rule: 'css',
+    loader: 'css-loader',    
+    isServer,
+    importLoaders: 2
+  })
+  */
+
+  setStyle(chain, /\.css$/, {
+    rule: 'css',
+    loader: 'postcss-loader',    
+    isServer,
+    importLoaders: 1
+  })
+  //use: ['style-loader', 'css-loader', 'postcss-loader'],
+
 
   setStyle(chain, /\.less$/, {
     rule: 'less',
     loader: 'less-loader',
     isServer,
-    importLoaders: 2
+    importLoaders: 4
   })
 
   chain.plugin('minify-css').use(MiniCssExtractPlugin, getBuildConfig().cssBuildConfig)

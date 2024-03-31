@@ -1,7 +1,7 @@
 import { PassThrough } from 'stream'
 import * as React from 'react'
 import { createElement } from 'react'
-import { StaticRouter } from 'react-router-dom'
+import { StaticRouter } from 'react-router-dom/server'
 import { renderToString, renderToNodeStream } from 'react-dom/server'
 import { findRoute, getManifest, logGreen, normalizePath, getAsyncCssChunk, getAsyncJsChunk, splitPageInfo, reactRefreshFragment, localStorageWrapper, checkRoute, useStore } from 'ssr-common-utils'
 import { ISSRContext, IConfig, ReactESMPreloadFeRouteItem, DynamicFC, StaticFC } from 'ssr-types'
@@ -77,17 +77,24 @@ const serverRender = async (ctx: ISSRContext, config: IConfig) => {
     })
     const injectState = <script dangerouslySetInnerHTML={{ __html: innerHTML }} />
     // with jsx type error, use createElement here
+    console.error('CREATE STATIC ROUTER HERERJERHEHREHEHER')
+    console.error('CREATE STATIC ROUTER HERERJERHEHREHEHER')
+    console.error('CREATE STATIC ROUTER HERERJERHEHREHEHER')
+    console.error('CREATE STATIC ROUTER HERERJERHEHREHEHER')
+    // @ts-ignore
     const ele = createElement(StaticRouter, {
       location: ctx.request.url,
       basename: prefix === '/' ? undefined : prefix
     }, createElement(AppContext, {
       context: context as any,
       initialState: combineData,
+      // @ts-ignore
       children: createElement(Layout, {
         ctx: ctx,
         config: config,
         staticList: staticList,
         injectState: injectState
+        // @ts-ignore
       }, createElement(Component, null))
     }))
     // for ctx.body will loose asynclocalstorage context, consume stream in advance like vue2/3

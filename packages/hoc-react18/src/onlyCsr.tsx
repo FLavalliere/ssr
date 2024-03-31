@@ -12,6 +12,7 @@ function onlyCsr<T={}, U={}> (WrappedComponent: FC<T, U>) {
       setIsClient(true)
     }, [])
     return (
+      // @ts-ignore
       isClient ? <WrappedComponent {...props}></WrappedComponent> : <></>
     )
   }
