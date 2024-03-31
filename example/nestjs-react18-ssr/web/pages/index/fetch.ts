@@ -6,9 +6,11 @@ const fetch: ReactNestFetch<{
   apiService: {
     index: () => Promise<IndexData>
   }
-}> = async ({ ctx, routerProps }) => {
+}> = async ({ ctx }) => {
+  console.error('STATE IS :', useStore());
   const { indexState } = useStore()
   const data = __isBrowser__ ? await (await window.fetch('/api/index')).json() : await ctx!.apiService?.index()
+  console.error('STORE IS :', indexState)
   indexState.indexData = data
 }
 

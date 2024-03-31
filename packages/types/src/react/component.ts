@@ -1,5 +1,5 @@
 import type { ReactChild, Context } from 'react'
-import type { RouteComponentProps } from 'react-router-dom'
+import type { NavigateOptions } from 'react-router-dom'
 import type { IContext } from './route'
 
 type IProps<T = {}> = T & {
@@ -8,7 +8,7 @@ type IProps<T = {}> = T & {
   context: Context<IContext>
 }
 
-type SProps<T = {}> = T & RouteComponentProps
+type SProps<T = {}> = T & NavigateOptions
 
 interface Action {
   type: string

@@ -23,13 +23,18 @@ const localStorage = new AsyncLocalStorage<StoreData>()
 
 export const localStorageWrapper = {
   run: async function (store: StoreData, callback: (args?: unknown) => StorageReturnVal) {
+    // console.error('RUN LOCALSTORAGE ASYNC STORE IS:', store)
     const res = await localStorage.run(store, async function () {
       const res = await callback()
       return res
     })
     return res
   },
-  getStore: () => localStorage.getStore()
+  getStore: () => {
+    // console.error('CALLLED USE STORE with', localStorage)
+    // console.error('CALLLED USE STORE with', localStorage.getStore())
+    return localStorage.getStore()
+  }
 }
 
 const appLocalStoreage = new AsyncLocalStorage<AppStore>()
@@ -51,6 +56,7 @@ export const useStore = <T = any >(): T => localStorage.getStore()?.store
 export const usePinia = () => localStorage.getStore()?.pinia
 
 export const useStoreContext = () => {
+  // console.error('CALLLED USE STORE EHREHRHERHERH')
   return localStorageWrapper.getStore()?.context
 }
 

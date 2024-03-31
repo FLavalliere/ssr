@@ -29,6 +29,7 @@ const loadConfig = (): IConfig => {
   const alias = Object.assign({
     '@': getFeDir(),
     '~': getCwd(),
+    '~/app': join(cwd, './app'),
     '~/src': join(cwd, './src'),
     _build: join(cwd, './build')
   }, framework === 'ssr-plugin-react' ? {} : {

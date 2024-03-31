@@ -33,6 +33,7 @@ const getBaseConfig = (chain: WebpackChain, isServer: boolean) => {
   addCommonChain(chain, isServer)
   setStyle(chain, /\.css$/, {
     rule: 'css',
+    loader: 'style-loader',
     isServer,
     importLoaders: 1
   })

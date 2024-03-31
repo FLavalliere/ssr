@@ -24,6 +24,7 @@ function compilePath (path, options) {
 }
 
 function matchPath (pathname, options = {}) {
+  console.error('MATCH PATH HERE:', matchPath)
   if (typeof options === 'string' || Array.isArray(options)) {
     options = { path: options }
   }
@@ -63,6 +64,7 @@ function matchPath (pathname, options = {}) {
 }
 
 function findRoute<T extends { path: string, childPath?: string, children?: [] }> (Routes: T[], path: string): T {
+  console.error('FINDING ROUTE HEREHERHEH:', path)
   // 根据请求的path来匹配到对应的Component
   const p = path.includes('?') ? path.split('?')[0] : path
   const route = Routes.find(route => {
